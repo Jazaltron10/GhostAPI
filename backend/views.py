@@ -1,3 +1,4 @@
+# for function based views
 from django.shortcuts import render
 from .models import Article 
 from .serializers import ArticleSerializer
@@ -13,8 +14,51 @@ from rest_framework import status
 # for class based views
 from rest_framework.views import APIView
 
+# working with mixins 
+from rest_framework import mixins
+from rest_framework import generics
 
 
+class ArticleList(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
+    queryset = Article.objects.all()
+    serializer_class = ArticleSerializer
+    
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+    
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+    
+
+class ArticleDetails(mixins.RetrieveModelMixin,mixins.UpdateModelMixin,mixins.DestroyModelMixin,generics.GenericAPIView):
+    queryset = Article.objects.all()
+    serializer_class = ArticleSerializer
+    
+    lookup_field = 'slug'
+    
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
+    
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+    
+    def delete(self, request, *args, **kwargs):
+        return self.delete(request, *args, **kwargs)
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+"""
+# class based views
 class ArticleList(APIView):
     
     def get(self, request):
@@ -53,11 +97,13 @@ class ArticleDetails(APIView):
         article = self.get_object(slug)
         article.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)        
+"""
         
         
         
         
 """
+# api views
 @api_view(['GET', 'POST'])
 def article_list(request):
     if request.method == 'GET':
