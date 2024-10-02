@@ -22,6 +22,22 @@ from rest_framework import generics
 from rest_framework import viewsets
 
 
+class ArticleViewSet(viewsets.ModelViewSet):
+    queryset = Article.objects.all()
+    serializer_class = ArticleSerializer
+    lookup_field = 'slug'    
+
+
+
+""" 
+class ArticleViewSet(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.CreateModelMixin, mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin):
+    lookup_field = 'slug'
+    queryset  = Article.objects.all()
+    serializer_class = ArticleSerializer
+"""
+
+
+""" 
 class ArticleViewSet(viewsets.ViewSet):
     
     def list(self, request):
@@ -35,23 +51,7 @@ class ArticleViewSet(viewsets.ViewSet):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST) 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+"""
 
 """ 
 class ArticleList(generics.ListCreateAPIView):
