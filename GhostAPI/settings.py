@@ -41,11 +41,17 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'dj_rest_auth.registration',
     'rest_framework',
     'rest_framework.authtoken',
-    'backend',
+    'dj_rest_auth',
+    'backend'
 ]
-
+SITE_ID = 1
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -54,7 +60,10 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    'allauth.account.middleware.AccountMiddleware',    
 ]
+
+SILENCED_SYSTEM_CHECKS = ['models.W036']
 
 ROOT_URLCONF = "GhostAPI.urls"
 
@@ -76,6 +85,16 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "GhostAPI.wsgi.application"
 
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+ACCOUNT_AUTHENTICATION_METHOD = 'username'
+ACCOUNT_EMAIL_REQUIRED=False
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ]
+}
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases

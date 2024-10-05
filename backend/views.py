@@ -2,7 +2,7 @@
 from django.shortcuts import render
 from .models import Article 
 from .serializers import ArticleSerializer
-from rest_framework.parsers import JSONParser
+from rest_framework.parsers import JSONParser 
 from django.http import JsonResponse, HttpResponse, Http404
 from django.views.decorators.csrf import csrf_exempt
 
@@ -21,11 +21,30 @@ from rest_framework import generics
 # for viewsets
 from rest_framework import viewsets
 
+# for authentication
+# from rest_framework.authtoken import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
+from .permissions import IsAuthor
 
 class ArticleViewSet(viewsets.ModelViewSet):
     queryset = Article.objects.all()
     serializer_class = ArticleSerializer
-    lookup_field = 'slug'    
+    lookup_field = 'slug' 
+    # authentication_classes = (TokenAuthentication,)
+    permission_classes = [IsAuthenticated, IsAuthor]
+
+    def perform_create(self, serializer):
+        serializer.save(author = self.request.user)
+
+
+
+
+
+
+
+
+
+
 
 
 
