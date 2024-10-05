@@ -32,7 +32,10 @@ rest:
 	pip install djangorestframework djangorestframework-simplejwt django-filter dj-rest-auth django-allauth requests
 
 deploy:
-	pip install whitenoise 
+	pip install whitenoise gunicorn
+
+require:
+	pip freeze > requirements.txt
 
 format:
 	black $(dir)
