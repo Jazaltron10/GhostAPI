@@ -26,7 +26,7 @@ pipu:
 	pip install --upgrade pip
 
 depnd:
-	pip install django mysqlclient python-dotenv black 
+	pip install django mysqlclient python-dotenv black psycopg2
 	
 rest:
 	pip install djangorestframework djangorestframework-simplejwt django-filter dj-rest-auth django-allauth requests
